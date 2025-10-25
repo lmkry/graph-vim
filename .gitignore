@@ -1,0 +1,54 @@
+# === Go / Wails Build Artifacts ===
+# Compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Wails project build output
+build/bin/
+build/darwin/
+build/windows/
+
+# Executable names
+graph-vim
+graph-vim-*
+
+# === Frontend ===
+# Node.js dependencies
+frontend/node_modules/
+
+# Frontend build output
+frontend/dist/
+
+# Wails generated bridge
+frontend/wailsjs/
+
+# === IDE / Editor ===
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+
+# Vim
+*.swp
+*~
+.*.swp
+.*.swo
+
+# === OS Specific ===
+.DS_Store
+Thumbs.db
+
+# === Logs ===
+*.log
+
+# === Environment ===
+.env
+.env.*
+!.env.example
+
+# wails.json can sometimes contain local paths.
+# Unmark the line below if you don't want to track it.
+# wails.json
