@@ -2,26 +2,34 @@ package app
 
 import (
 	"context"
-	"fmt"
+	"graph-vim/internal/model"
 )
 
-// App struct
 type App struct {
 	ctx context.Context
+	g   *model.Graph
 }
 
-// NewApp creates a new App application struct
 func NewApp() *App {
-	return &App{}
+	return &App{
+		g: model.NewGraph(),
+	}
 }
 
-// startup is called when the app starts. The context is saved
-// so we can call the runtime methods
 func (a *App) Startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
+func (a *App) AddNode() []*model.Node {
+	a.g.AddNode()
+	return a.g.GetNodes()
+}
+
+func (a *App) DeleteNode() []*model.Node {
+	a.g.DeleteNode()
+	return a.g.GetNodes()
+}
+
+func (a *App) GetNodes() []*model.Node {
+	return a.g.GetNodes()
 }
