@@ -15,16 +15,17 @@ func NewGraph() *Graph {
 	}
 }
 
-func (g *Graph) AddNode() *Node {
+func (g *Graph) AddNode() []*Node {
 	g.mu.Lock()
-	defer g.mu.Unlock()
 
 	newNode := &Node{
 		X: float64(50 + (len(g.Nodes) * 20 % 300)),
 		Y: float64(50 + (len(g.Nodes) * 35 % 250)),
 	}
 	g.Nodes = append(g.Nodes, newNode)
-	return newNode
+
+	g.mu.Unlock()
+	return g.GetNodes(); 
 }
 
 func (g *Graph) DeleteNode() []*Node {
