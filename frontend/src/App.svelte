@@ -1,14 +1,23 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { Node } from './lib/types';
+  import { Modes } from './lib/key_motions/modes';
   import { handleGetNodes, handleAddNode, handleDeleteNode } from './lib/graphActions';
+  import { KeyMotionHandlerFactory } from './lib/key_motions/keyMotionHandlerFactory';
+  import { initKeyMotions } from './lib/key_motions/keyMotions';
 
   let nodes: Node[] = [];
   const setNodes = (n: Node[]) => {
     nodes = n;
   };
 
-  onMount(() => handleGetNodes(setNodes));
+  onMount(() => {
+    handleGetNodes(setNodes);
+    const cleanupKeyMotions = initKeyMotions(setNodes, Modes.NORMAL);
+    return () => {
+      cleanupKeyMotions();
+    };
+  });
 </script>
 
 <main>

@@ -1,6 +1,8 @@
-// graphActions.ts is a controller layer. It handles the interaction between the UI components and
-// the API layer for managing graph nodes. This is mostly done for separation of concerns and to 
-// keep the UI components clean and focused on rendering.
+/**
+* graphActions.ts is a controller layer. It handles the interaction between the UI components and
+* the API layer for managing graph nodes. This is mostly done for separation of concerns and to
+* keep the UI components clean and focused on rendering.
+*/
 
 import { getNodes, addNode, deleteNode } from './api';
 import type { Node } from './types';
