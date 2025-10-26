@@ -1,5 +1,5 @@
 import { KeyMotionHandlerBase } from './keyMotionHandlerBase';
-import { handleAddNode } from '../graphActions';
+import { handleAddNode, handleDeleteNode } from '../graphActions';
 import type { Node } from '../types';
 
 export class KeyMotionHandlerNormal extends KeyMotionHandlerBase {
@@ -12,6 +12,7 @@ export class KeyMotionHandlerNormal extends KeyMotionHandlerBase {
 
   protected defineKeyMotions(): void {
     this.addKeyMotion('an', () => handleAddNode(this.setNodes));
+    this.addKeyMotion('dn', () => handleDeleteNode(this.setNodes));
   }
 
 }
