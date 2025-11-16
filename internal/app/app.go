@@ -20,9 +20,8 @@ func (a *App) Startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-func (a *App) AddNode() []*model.Node {
-	a.g.AddNode()
-	return a.g.GetNodes()
+func (a *App) AddNode() *model.AddNodeResult {
+	return a.g.AddNode()
 }
 
 func (a *App) DeleteNode() []*model.Node {
@@ -32,4 +31,8 @@ func (a *App) DeleteNode() []*model.Node {
 
 func (a *App) GetNodes() []*model.Node {
 	return a.g.GetNodes()
+}
+
+func (a *App) UpdateNodeText(nodeID string, text string) []*model.Node {
+  return a.g.UpdateNodeText(nodeID, text)
 }

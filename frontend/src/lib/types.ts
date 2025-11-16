@@ -1,5 +1,11 @@
 export interface Node {
-    X: number;
-    Y: number;
-  }
+  ID: string;
+  Text: string;
+  X: number;
+  Y: number;
+}
 
+export interface AddNodeResult {
+  NodeID: string;
+  Nodes: Node[];
+}

@@ -3,19 +3,22 @@
 * state.
 */
 
-import { GetNodes, AddNode, DeleteNode } from '../../wailsjs/go/app/App';
-import type { Node } from './types';
+import { GetNodes, AddNode, DeleteNode, UpdateNodeText } from '../../wailsjs/go/app/App';
+import type { Node, AddNodeResult } from './types';
 
 export async function getNodes(): Promise<Node[]> {
   return await GetNodes();
 }
 
-export async function addNode(): Promise<Node[]> {
-  const result = await AddNode();
-  return result 
+export async function addNode(): Promise<AddNodeResult> {
+  return await AddNode();
 }
 
 export async function deleteNode(): Promise<Node[]> {
   return await DeleteNode();
+}
+
+export async function updateNodeText(nodeID: string, text: string): Promise<Node[]> {
+  return await UpdateNodeText(nodeID, text);
 }
 
