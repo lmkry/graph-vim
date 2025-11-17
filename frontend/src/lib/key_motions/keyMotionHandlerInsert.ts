@@ -1,19 +1,18 @@
 import { KeyMotionHandlerBase } from './keyMotionHandlerBase';
 import { handleUpdateNodeText } from '../graphActions';
+import { GraphEvents, type ModeChangeRequestedEvent } from '../events/graphEvents';
 import type { Node } from '../types';
 
 export class KeyMotionHandlerInsert extends KeyMotionHandlerBase {
   private setNodes: (n: Node[]) => void;
   private focusedNodeID: string;
   private currentText: string;
-  private onExitInsertMode: () => void;
 
-  constructor(setNodes: (n: Node[]) => void, focusedNodeID: string, initialText: string, onExitInsertMode: () => void) {
+  constructor(setNodes: (n: Node[]) => void, focusedNodeID: string, initialText: string) {
     super();
     this.setNodes = setNodes;
     this.focusedNodeID = focusedNodeID;
     this.currentText = initialText;
-    this.onExitInsertMode = onExitInsertMode;
   }
 
   protected defineKeyMotions(): void {
@@ -21,7 +20,9 @@ export class KeyMotionHandlerInsert extends KeyMotionHandlerBase {
 
   handleKeyPress(key: string): void {
     if (key === 'Escape') {
-      this.onExitInsertMode();
+      this.eventBus.emit<ModeChangeRequestedEvent>(GraphEvents.MODE_CHANGE_REQUESTED, {
+        mode: 'NORMAL',
+      });
       return;
     }
 

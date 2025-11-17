@@ -1,9 +1,11 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import type { Node } from './lib/types';
   import { Modes } from './lib/key_motions/modes';
   import { handleGetNodes } from './lib/graphActions';
   import { initKeyMotions } from './lib/key_motions/keyMotions';
+  import { eventBus } from './lib/events/eventBus';
+  import { GraphEvents, type ModeChangeRequestedEvent } from './lib/events/graphEvents';
 
   let nodes: Node[] = [];
   const setNodes = (n: Node[]) => {
@@ -13,6 +15,7 @@
   let currentMode: Modes = Modes.NORMAL;
   let focusedNodeID: string | null = null;
   let keyMotionCleanup: (() => void) | null = null;
+  let eventUnsubscribers: (() => void)[] = [];
 
   function initializeKeyHandler() {
     if (keyMotionCleanup) {
@@ -24,22 +27,22 @@
     keyMotionCleanup = initKeyMotions(
       setNodes,
       currentMode,
-      onEnterInsertMode,
-      onExitInsertMode,
       focusedNodeID || undefined,
       initialText
     );
   }
 
-  function onEnterInsertMode(nodeID: string) {
-    focusedNodeID = nodeID;
-    currentMode = Modes.INSERT;
-    initializeKeyHandler();
-  }
-
-  function onExitInsertMode() {
-    currentMode = Modes.NORMAL;
-    focusedNodeID = null;
+  function handleModeChange(event: ModeChangeRequestedEvent) {
+    switch (event.mode) {
+      case 'INSERT':
+        focusedNodeID = event.nodeID || null;
+        currentMode = Modes.INSERT;
+        break;
+      case 'NORMAL':
+        focusedNodeID = null;
+        currentMode = Modes.NORMAL;
+        break;
+    }
     initializeKeyHandler();
   }
 
@@ -47,11 +50,17 @@
     handleGetNodes(setNodes);
     initializeKeyHandler();
 
-    return () => {
-      if (keyMotionCleanup) {
-        keyMotionCleanup();
-      }
-    };
+    // Subscribe to events
+    eventUnsubscribers.push(
+      eventBus.on<ModeChangeRequestedEvent>(GraphEvents.MODE_CHANGE_REQUESTED, handleModeChange)
+    );
+  });
+
+  onDestroy(() => {
+    if (keyMotionCleanup) {
+      keyMotionCleanup();
+    }
+    eventUnsubscribers.forEach(unsub => unsub());
   });
 </script>
 

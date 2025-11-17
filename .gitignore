@@ -49,6 +49,9 @@ Thumbs.db
 .env.*
 !.env.example
 
+Claude.md
+Design.md
+
 # wails.json can sometimes contain local paths.
 # Unmark the line below if you don't want to track it.
 # wails.json

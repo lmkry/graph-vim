@@ -1,3 +1,5 @@
+import { eventBus } from '../events/eventBus';
+
 export type Action = () => void;
 
 class TrieNode {
@@ -8,6 +10,7 @@ class TrieNode {
 export abstract class KeyMotionHandlerBase {
   protected root = new TrieNode();
   protected currentBuffer: TrieNode[] = [this.root];
+  protected eventBus = eventBus; // Accessible to subclasses
 
   constructor() {
     this.defineKeyMotions();
